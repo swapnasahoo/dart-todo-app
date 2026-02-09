@@ -17,8 +17,6 @@ class Todo {
   }
 }
 
-final List<Todo> todos = [];
-
 void addTodo() {
   // get todoName
   stdout.write('Enter your todo name: ');
@@ -30,7 +28,6 @@ void addTodo() {
 
   // create and store todo
   final createdTodo = Todo(todoName, todoInfo);
-  todos.add(createdTodo);
 
   // inform user
   print('Todo created');
