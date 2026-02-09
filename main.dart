@@ -66,9 +66,20 @@ Future<void> viewTodos() async {
     return;
   }
 
-  final todoList = await file.readAsString();
+  final todoListJson = await file.readAsString();
+  final todoList = jsonDecode(todoListJson);
+  var todoNum = 1;
 
-  print(jsonDecode(todoList));
+  for (var todo in todoList) {
+    final todoName = todo['todoName'];
+    final todoInfo = todo['todoInfo'];
+    final isCompleted = todo['isCompleted'];
+
+    print(
+      '\n$todoNum. \nTodo Name: $todoName \nTodo info: $todoInfo \nCompleted: $isCompleted\n',
+    );
+    todoNum++;
+  }
 }
 
 void exit() {
