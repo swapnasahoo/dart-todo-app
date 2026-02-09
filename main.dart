@@ -40,3 +40,24 @@ void addTodo() {
 void exit() {
   print('Goodbye 👋');
 }
+
+void main() {
+  print('\n====== TODO APP ======\n');
+  print('1. Add todo');
+  print('2. Exit');
+
+  stdout.write('Choose one of the options: ');
+  final choice = stdin.readLineSync() ?? '';
+
+  switch (choice) {
+    case '1':
+      addTodo();
+      break;
+    case '2':
+      exit();
+      return;
+    default:
+      print('\nInvalid option');
+      main();
+  }
+}
