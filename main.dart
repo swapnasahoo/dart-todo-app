@@ -82,6 +82,35 @@ Future<void> viewTodos() async {
   }
 }
 
+void deleteTodo() async {
+  await viewTodos();
+
+  stdout.write('Enter the todo number you want to delete: ');
+  final todoNum = stdin.readLineSync() ?? '';
+  final int todoIndex = int.parse(todoNum) - 1;
+
+  if (todoIndex < 0 || todoIndex.isNaN) {
+    print('Invalid todo number');
+    deleteTodo();
+    return;
+  }
+
+  // get todo list
+  final file = File('todos.json');
+
+  final todoListJson = await file.readAsString();
+  final todoList = jsonDecode(todoListJson);
+
+  // remove todo
+  todoList.removeAt(todoIndex);
+
+  // update json file
+  await file.writeAsString(jsonEncode(todoList));
+
+  // inform user
+  print('Todo number $todoNum successfully deleted');
+}
+
 void exit() {
   print('Goodbye 👋');
 }
@@ -90,7 +119,8 @@ void main() async {
   print('\n====== TODO APP ======\n');
   print('1. Add todo');
   print('2. View todos');
-  print('3. Exit');
+  print('3. Delete todo');
+  print('4. Exit');
 
   stdout.write('Choose one of the options: ');
   final choice = stdin.readLineSync() ?? '';
@@ -103,6 +133,8 @@ void main() async {
       await viewTodos();
       break;
     case '3':
+      deleteTodo();
+    case '4':
       exit();
       return;
     default:
