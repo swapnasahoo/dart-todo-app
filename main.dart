@@ -10,6 +10,11 @@ class Todo {
   void toggleCompleted() {
     isCompleted = !isCompleted;
   }
+
+  @override
+  String toString() {
+    return 'Todo name: $todoName \nTodo info: $todoInfo \nCompleted: $isCompleted';
+  }
 }
 
 final List<Todo> todos = [];
@@ -29,5 +34,5 @@ void addTodo() {
 
   // inform user
   print('Todo created');
-  print('Todo name: $todoName \nTodo info: $todoInfo \nCompleted: false');
+  print(createdTodo);
 }
