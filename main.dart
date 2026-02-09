@@ -36,3 +36,7 @@ void addTodo() {
   print('Todo created');
   print(createdTodo);
 }
+
+void exit() {
+  print('Goodbye 👋');
+}
