@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 class Todo {
@@ -17,7 +18,7 @@ class Todo {
   }
 }
 
-void addTodo() {
+Future<void> addTodo() async {
   // get todoName
   stdout.write('Enter your todo name: ');
   final todoName = stdin.readLineSync() ?? '';
@@ -26,8 +27,31 @@ void addTodo() {
   stdout.write('Enter todo info: ');
   final todoInfo = stdin.readLineSync() ?? '';
 
-  // create and store todo
+  // create todo
   final createdTodo = Todo(todoName, todoInfo);
+
+  // format todo
+  final formattedTodo = {
+    'todoName': todoName,
+    'todoInfo': todoInfo,
+    'isCompleted': false,
+  };
+
+  // get / create todos.json file
+  final file = File('todos.json');
+  if (!await file.exists()) {
+    await file.writeAsString('[]');
+  }
+
+  // get already created todos
+  final todoListJson = await file.readAsString();
+  final todoList = jsonDecode(todoListJson);
+
+  // add createdTodo to todoList
+  todoList.add(formattedTodo);
+
+  // save the new todo
+  await file.writeAsString(jsonEncode(todoList));
 
   // inform user
   print('Todo created');
@@ -38,7 +62,7 @@ void exit() {
   print('Goodbye 👋');
 }
 
-void main() {
+void main() async {
   print('\n====== TODO APP ======\n');
   print('1. Add todo');
   print('2. Exit');
@@ -48,7 +72,7 @@ void main() {
 
   switch (choice) {
     case '1':
-      addTodo();
+      await addTodo();
       break;
     case '2':
       exit();
