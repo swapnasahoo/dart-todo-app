@@ -58,6 +58,19 @@ Future<void> addTodo() async {
   print(createdTodo);
 }
 
+Future<void> viewTodos() async {
+  final file = File('todos.json');
+
+  if (!await file.exists()) {
+    print("You haven't made any todos till now. Create one to view.");
+    return;
+  }
+
+  final todoList = await file.readAsString();
+
+  print(jsonDecode(todoList));
+}
+
 void exit() {
   print('Goodbye 👋');
 }
@@ -65,7 +78,8 @@ void exit() {
 void main() async {
   print('\n====== TODO APP ======\n');
   print('1. Add todo');
-  print('2. Exit');
+  print('2. View todos');
+  print('3. Exit');
 
   stdout.write('Choose one of the options: ');
   final choice = stdin.readLineSync() ?? '';
@@ -75,6 +89,9 @@ void main() async {
       await addTodo();
       break;
     case '2':
+      await viewTodos();
+      break;
+    case '3':
       exit();
       return;
     default:
